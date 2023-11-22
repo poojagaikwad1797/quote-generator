@@ -4,4 +4,4 @@ In this react app as user clicks on New Quote button new quote will generate and
 ## React App
 
 ### - Created By [Pooja Gaikwad](https://impooja.netlify.app/)
-### - [Live App](https://quote-generator.netlify.app/)
+### - [Live App](https://quotes-by-pooja.netlify.app/)
