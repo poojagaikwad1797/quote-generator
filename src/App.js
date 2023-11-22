@@ -1,54 +1,40 @@
+// App.js
+
 import React from "react";
-import QuoteAndAuthor from "./QuoteAndAuthor";
-import quotes from './QuotesDatabase'
+import axios from "axios";
+
 import "./App.css";
 
-
-
 class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      quote: quotes[0].quote,
-      author: quotes[0].author,
-    };
+  state = { advice: "" };
+
+  componentDidMount() {
+    this.fetchAdvice();
   }
 
-  randomQuote() {
-    const randomNumber = Math.floor(Math.random() * quotes.length);
-    return quotes[randomNumber];
-    
-  }
-  shuffleQuotes(array){
-    return array.sort(()=>Math.random()-0.5)
-  }
+  fetchAdvice = () => {
+    axios
+      .get("https://api.adviceslip.com/advice")
+      .then((response) => {
+        const { advice } = response.data.slip;
 
-  handleClick = () => {
-    const generateRandomQuote = this.randomQuote();
-    this.setState({
-      quote: generateRandomQuote.quote,
-      author: generateRandomQuote.author
-    });
-    this.shuffleQuotes(quotes)
+        this.setState({ advice });
+      })
+
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  randomColor() {
-    const color = `rgb(
-      ${Math.floor(Math.random() * 155)},
-      ${Math.floor(Math.random() * 155)},
-      ${Math.floor(Math.random() * 155)})`;
-    return color;
-  }
-  
   render() {
     return (
-      <div>
-        <QuoteAndAuthor
-          displayColor={this.randomColor}
-          handleClick={this.handleClick}
-          {...this.state}
-        />
-        <h5>Created By <a target="_blank" href="http://gaikwadpooja.ml/">Pooja Gaikwad</a></h5>
+      <div className="app">
+        <div className="card">
+          <h1 className="heading">{this.state.advice}</h1>
+          <button className="button" onClick={this.fetchAdvice}>
+            <span>New Quote</span>
+          </button>
+        </div>
       </div>
     );
   }
